@@ -1,8 +1,12 @@
 ARG centos=7.9.2009
-FROM aursu/rpmbuild:${centos}-build
+FROM aursu/rpmbuild:${centos}-build-gcc8
 
 USER root
-RUN yum -y install gmp-devel
+RUN yum -y install \
+        cmake \
+        elfutils-devel \
+        zlib-devel \
+    && yum clean all && rm -rf /var/cache/yum
 
 COPY SOURCES ${BUILD_TOPDIR}/SOURCES
 COPY SPECS ${BUILD_TOPDIR}/SPECS
@@ -10,5 +14,5 @@ COPY SPECS ${BUILD_TOPDIR}/SPECS
 RUN chown -R $BUILD_USER ${BUILD_TOPDIR}/{SOURCES,SPECS}
 
 USER $BUILD_USER
-ENTRYPOINT ["/usr/bin/rpmbuild", "isl.spec"]
+ENTRYPOINT ["/usr/bin/rpmbuild", "dwarves.spec"]
 CMD ["-ba"]
