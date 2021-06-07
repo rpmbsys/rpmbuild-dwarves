@@ -1,6 +1,9 @@
 %define libname libdwarves
 %define libver 1
 
+%define _debugsource_template %{nil}
+%define debug_package %{nil}
+
 Name: dwarves
 Version: 1.17
 Release: 1%{?dist}
